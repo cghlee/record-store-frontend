@@ -2,6 +2,20 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<AlbumSummaryList AllAlbums="allAlbums" />
 
-Welcome to your new app.
+@code {
+    List<Album> allAlbums = new List<Album>()
+    {
+        new Album(1, "Album1", "Artist1", "Composer1", Genre.Classical, 2001),
+        new Album(2, "Album2", "Artist2", "Composer2", Genre.Opera, 2002),
+        new Album(3, "Album3", "Artist3", "Composer3", Genre.Jazz, 2003),
+        new Album(4, "Album4", "Artist4", "Composer4", Genre.Rock, 2004),
+        new Album(5, "Album5", "Artist5", "Composer5", Genre.Pop, 2005),
+        new Album(6, "Album6", "Artist6", "Composer6", Genre.Classical, 2006),
+        new Album(7, "Album7", "Artist7", "Composer7", Genre.Opera, 2007),
+        new Album(8, "Album8", "Artist8", "Composer8", Genre.Jazz, 2008),
+        new Album(9, "Album9", "Artist9", "Composer9", Genre.Rock, 2009),
+        new Album(10, "Album10", "Artist10", "Composer10", Genre.Pop, 2010),
+    };
+}

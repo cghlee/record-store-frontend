@@ -1,0 +1,12 @@
+﻿<div class="grid is-col-min-16 is-gap-2">
+    @foreach (Album album in AllAlbums)
+    {
+        <div class="cell">
+            <AlbumSummary AlbumItem="album" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<Album> AllAlbums { get; set; }
+}

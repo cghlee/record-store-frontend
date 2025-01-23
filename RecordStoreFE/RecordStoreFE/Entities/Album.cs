@@ -13,4 +13,14 @@ public class Album
     public Genre Genre { get; set; }
 
     public int Year { get; set; }
+
+    public Album(int id, string name, string artist, string composer, Genre genre, int year)
+    {
+        Id = id;
+        Name = name;
+        Artist = artist;
+        Composer = composer;
+        Genre = genre;
+        Year = year;
+    }
 }
