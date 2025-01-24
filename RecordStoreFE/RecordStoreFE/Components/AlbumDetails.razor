@@ -1,0 +1,86 @@
+﻿@rendermode InteractiveServer
+
+<div class="columns is-centered">
+    <div class="column is-one-third">
+        <div>
+            <img src=@AlbumToEdit.AlbumArtUrl class="is-fullwidth" /><br />
+            <strong>NEW Album Art URL:</strong><br />
+            <InputText @bind-Value="AlbumToEdit.AlbumArtUrl" style="width:100%" />
+        </div><br />
+
+        <div>
+            <strong>Current Name:</strong><br />
+            <em>@AlbumToEdit.Name</em><br />
+            <strong>NEW Name:</strong><br />
+            <InputText @bind-Value="AlbumToEdit.Name" style="width:100%" />
+        </div><br />
+
+        <div>
+            <strong>Current Artist(s):</strong><br />
+            <em>@AlbumToEdit.Artist</em><br />
+            <strong>NEW Artist(s):</strong><br />
+            <InputText @bind-Value="AlbumToEdit.Artist" style="width:100%" />
+        </div><br />
+
+        <div>
+            <strong>Current Composer:</strong><br />
+            <em>@AlbumToEdit.Composer</em><br />
+            <strong>NEW Composer:</strong><br />
+            <InputText @bind-Value="AlbumToEdit.Composer" style="width:100%" />
+        </div><br />
+
+        <div>
+            <strong>Current Recording Year:</strong><br />
+            <em>@AlbumToEdit.Year</em><br />
+            <strong>NEW Recording Year:</strong><br />
+            <input @bind="AlbumToEdit.Year" style="width:100%" />
+        </div><br />
+
+        <button class="button" @onclick="SaveChanges">Save Changes</button>
+
+        @if (_showSuccessMessage)
+        {
+            <div class="notification is-success mt-4">Changes saved successfully!</div>
+        }
+
+        @if (_showFailureMessage)
+        {
+            <div class="notification is-danger mt-4">Failed to make changes.</div>
+        }
+    </div>
+</div>
+
+@code {
+    // [Parameter] public Album AlbumToEdit { get; set; }
+
+    Album AlbumToEdit = new Album
+    (
+        10,
+        "Manfred Symphony",
+        "Evgeny Svetlanov, USSR State Symphony Orchestra",
+        "Pyotr Ilyich Tchaikovsky",
+        Genre.Classical,
+        1967,
+        "https://static.qobuz.com/images/covers/wb/g3/zxitfiwbyg3wb_org.jpg"
+    );
+
+    private bool _showSuccessMessage = false;
+    private bool _showFailureMessage = false;
+
+    private async Task SaveChanges()
+    {
+        HttpClient httpClient = new HttpClient();
+        HttpResponseMessage response = await httpClient.PutAsJsonAsync<Album>($"https://localhost:7218/Albums/{AlbumToEdit.Id}", AlbumToEdit);
+
+        if (response.IsSuccessStatusCode)
+            _showSuccessMessage = true;
+        else
+            _showFailureMessage = true;
+
+        StateHasChanged();
+        await Task.Delay(5000);
+
+        _showSuccessMessage = _showFailureMessage = false;
+        StateHasChanged();
+    }
+}
