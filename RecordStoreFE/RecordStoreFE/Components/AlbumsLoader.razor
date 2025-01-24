@@ -1,0 +1,18 @@
+﻿@if (allAlbums != null)
+{
+    <AlbumSummaryList AllAlbums="allAlbums" />
+}
+else
+{
+    <span>Loading...</span>
+}
+
+@code {
+    public List<Album>? allAlbums;
+
+    protected override async Task OnInitializedAsync()
+    {
+        HttpClient httpClient = new HttpClient();
+        allAlbums = await httpClient.GetFromJsonAsync<List<Album>>("https://localhost:7218/Albums/");
+    }
+}

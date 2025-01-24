@@ -1,0 +1,26 @@
+﻿<div class="card has-background-grey-darker p-4">
+    <header class="card-header">
+        <div class="card-header-title">
+            @AlbumItem.Name<br />
+            @AlbumItem.Composer
+        </div>
+    </header>
+    <div class="card-image">
+        <figure class="image is-fullwidth">
+            <img src=@AlbumItem.AlbumArtUrl alt=@AlbumItem.Name/>
+        </figure>
+    </div>
+    <div class="card-content">
+        <div><strong>Artist(s):</strong>
+            @foreach (string artist in AlbumItem.Artist.Split(", ")){
+                <br /><span class="pl-4"> @artist</span>
+            }
+        </div>
+        <div><strong>Year:</strong> @AlbumItem.Year</div>
+        <div><strong>Genre:</strong> @AlbumItem.Genre</div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Album AlbumItem { get; set; }
+}
