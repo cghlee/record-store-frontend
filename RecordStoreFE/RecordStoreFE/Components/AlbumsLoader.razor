@@ -1,10 +1,10 @@
-﻿@if (allAlbums != null)
+﻿@if (allAlbums == null)
 {
-    <AlbumSummaryList AllAlbums="allAlbums" />
+    <span class="notification is-warning mt-1">Loading...</span>
 }
 else
 {
-    <span>Loading...</span>
+    <AlbumSummaryList AllAlbums="allAlbums" />
 }
 
 @code {

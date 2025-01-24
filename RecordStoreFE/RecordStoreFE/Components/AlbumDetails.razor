@@ -51,18 +51,7 @@
 </div>
 
 @code {
-    // [Parameter] public Album AlbumToEdit { get; set; }
-
-    Album AlbumToEdit = new Album
-    (
-        10,
-        "Manfred Symphony",
-        "Evgeny Svetlanov, USSR State Symphony Orchestra",
-        "Pyotr Ilyich Tchaikovsky",
-        Genre.Classical,
-        1967,
-        "https://static.qobuz.com/images/covers/wb/g3/zxitfiwbyg3wb_org.jpg"
-    );
+    [Parameter] public Album AlbumToEdit { get; set; }
 
     private bool _showSuccessMessage = false;
     private bool _showFailureMessage = false;

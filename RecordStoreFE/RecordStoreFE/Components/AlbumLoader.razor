@@ -1,0 +1,32 @@
+﻿@if (isBadRequest)
+{
+    <p class="notification is-danger mt-1">No database album with ID @AlbumIdToEdit exists.</p>
+}
+else if (albumToEdit == null)
+{
+    <p class="notification is-warning mt-1">Loading...</p>
+}
+else
+{
+    <AlbumDetails AlbumToEdit="albumToEdit" />
+}
+
+@code {
+    [Parameter] public int AlbumIdToEdit { get; set; }
+
+    private Album? albumToEdit;
+    private bool isBadRequest = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            HttpClient httpClient = new HttpClient();
+            albumToEdit = await httpClient.GetFromJsonAsync<Album>($"https://localhost:7218/Albums/{AlbumIdToEdit}");
+        }
+        catch
+        {
+            isBadRequest = true;
+        }
+    }
+}

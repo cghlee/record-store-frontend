@@ -1,0 +1,9 @@
+﻿@page "/albums/{Id:int}"
+
+<PageTitle>Album @Id</PageTitle>
+
+<AlbumLoader AlbumIdToEdit="Id" />
+
+@code {
+    [Parameter] public int Id { get; set; }
+}
