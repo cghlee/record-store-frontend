@@ -1,0 +1,76 @@
+﻿@page "/albums/delete/{Id:int}"
+
+@rendermode InteractiveServer
+
+<div>
+    @if (_isBadRequest)
+    {
+        <span>There is no database album with ID @Id.</span>
+    }
+    else if (_albumToDelete == null)
+    {
+        <span>Loading...</span>
+    }
+    else
+    {
+        <label for="ConfirmDeleteCheckbox">Click to confirm DELETION of:</label>
+        <InputCheckbox id="ConfirmDeleteCheckbox" @bind-Value="_isDeletionConfirmed" placeholder="Enter album ID"></InputCheckbox>
+        <br />
+        <span><strong>@_albumToDelete.Name</strong> by <strong>@_albumToDelete.Composer</strong></span>
+        <br />
+        <button class="button is-danger" @onclick="DeleteValidatedAlbum" disabled="@(!_isDeletionConfirmed)">Confirm</button>
+    }
+
+    @if (_showSuccessMessage)
+    {
+        <div class="notification is-success mt-4">Album successfully deleted!</div>
+    }
+
+    @if (_showFailureMessage)
+    {
+        <div class="notification is-danger mt-4">Failed to delete album.</div>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private Album? _albumToDelete;
+    private bool _isBadRequest;
+
+    private bool _isDeletionConfirmed;
+
+    private bool _showSuccessMessage;
+    private bool _showFailureMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            HttpClient httpClient = new HttpClient();
+            _albumToDelete = await httpClient.GetFromJsonAsync<Album>($"https://localhost:7218/Albums/{Id}");
+            httpClient.Dispose();
+        }
+        catch
+        {
+            _isBadRequest = true;
+        }
+    }
+
+    private async Task DeleteValidatedAlbum()
+    {
+        HttpClient httpClient = new HttpClient();
+        HttpResponseMessage response = await httpClient.DeleteAsync($"https://localhost:7218/Albums/{Id}");
+
+        if (response.IsSuccessStatusCode)
+            _showSuccessMessage = true;
+        else
+            _showFailureMessage = true;
+
+        StateHasChanged();
+        await Task.Delay(5000);
+
+        _showSuccessMessage = _showFailureMessage = false;
+        StateHasChanged();
+    }
+}
