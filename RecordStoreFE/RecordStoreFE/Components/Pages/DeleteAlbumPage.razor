@@ -2,34 +2,36 @@
 
 @rendermode InteractiveServer
 
-<div>
-    @if (_isBadRequest)
-    {
-        <span>There is no database album with ID @Id.</span>
-    }
-    else if (_albumToDelete == null)
-    {
-        <span>Loading...</span>
-    }
-    else
-    {
-        <label for="ConfirmDeleteCheckbox">Click to confirm DELETION of:</label>
-        <InputCheckbox id="ConfirmDeleteCheckbox" @bind-Value="_isDeletionConfirmed" placeholder="Enter album ID"></InputCheckbox>
-        <br />
-        <span><strong>@_albumToDelete.Name</strong> by <strong>@_albumToDelete.Composer</strong></span>
-        <br />
-        <button class="button is-danger" @onclick="DeleteValidatedAlbum" disabled="@(!_isDeletionConfirmed)">Confirm</button>
-    }
+<div class="columns is-centered">
+    <div class="column is-one-third">
+        @if (_isBadRequest)
+        {
+            <span>There is no database album with ID @Id.</span>
+        }
+        else if (_albumToDelete == null)
+        {
+            <span>Loading...</span>
+        }
+        else
+        {
+            <label for="ConfirmDeleteCheckbox">Click to confirm DELETION of:</label>
+            <InputCheckbox id="ConfirmDeleteCheckbox" @bind-Value="_isDeletionConfirmed" placeholder="Enter album ID"></InputCheckbox>
+            <br />
+            <span><strong>@_albumToDelete.Name</strong> by <strong>@_albumToDelete.Composer</strong></span>
+            <br />
+            <button class="button is-danger" @onclick="DeleteValidatedAlbum" disabled="@(!_isDeletionConfirmed)">Confirm</button>
+        }
 
-    @if (_showSuccessMessage)
-    {
-        <div class="notification is-success mt-4">Album successfully deleted!</div>
-    }
+        @if (_showSuccessMessage)
+        {
+            <div class="notification is-success mt-4">Album successfully deleted!</div>
+        }
 
-    @if (_showFailureMessage)
-    {
-        <div class="notification is-danger mt-4">Failed to delete album.</div>
-    }
+        @if (_showFailureMessage)
+        {
+            <div class="notification is-danger mt-4">Failed to delete album.</div>
+        }
+    </div>
 </div>
 
 @code {
