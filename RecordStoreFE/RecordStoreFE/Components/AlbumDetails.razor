@@ -53,8 +53,8 @@
 @code {
     [Parameter] public Album AlbumToEdit { get; set; }
 
-    private bool _showSuccessMessage = false;
-    private bool _showFailureMessage = false;
+    private bool _showSuccessMessage;
+    private bool _showFailureMessage;
 
     private async Task SaveChanges()
     {

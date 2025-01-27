@@ -1,0 +1,89 @@
+﻿@page "/albums/add"
+
+@rendermode InteractiveServer
+
+<div class="columns is-centered">
+    <div class="column is-one-third">
+        <EditForm FormName="NewAlbumForm" Model="@newAlbum" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div>
+                <label for="newAlbumName"><strong>Name:</strong></label>
+                <InputText id="newAlbumName" @bind-Value="newAlbum.Name" placeholder="Enter album name" style="width:100%"></InputText>
+            </div>
+            <br />
+
+            <div>
+                <label for="newAlbumArtist"><strong>Artist(s):</strong></label>
+                <InputText id="newAlbumArtist" @bind-Value="newAlbum.Artist" placeholder="Enter artist(s)" style="width:100%"></InputText>
+            </div>
+            <br />
+
+            <div>
+                <label for="newAlbumComposer"><strong>Composer:</strong></label>
+                <InputText id="newAlbumComposer" @bind-Value="newAlbum.Composer" placeholder="Enter composer" style="width:100%"></InputText>
+            </div>
+            <br />
+
+            <div>
+                <label for="newAlbumGenre"><strong>Genre:</strong></label>
+                <InputSelect id="newAlbumGenre" @bind-Value="newAlbum.Genre" style="width:100%">
+                    @foreach (Genre genre in Enum.GetValues(typeof(Genre)))
+                    {
+                        <option value="@genre">@genre</option>
+                    }
+                </InputSelect>
+            </div>
+            <br />
+
+            <div>
+                <label for="newAlbumRecordingYear"><strong>Year of Recording:</strong></label>
+                <InputNumber id="newAlbumRecordingYear" @bind-Value="newAlbum.Year" style="width:100%"></InputNumber>
+            </div>
+            <br />
+
+            <div>
+                <label for="newAlbumArtUrl"><strong>Album Art URL:</strong></label>
+                <InputText id="newAlbumArtUrl" @bind-Value="newAlbum.AlbumArtUrl" placeholder="Enter album art URL" style="width:100%"></InputText>
+            </div>
+            <br />
+
+            <button class="submit button">Submit</button>
+        </EditForm>
+
+        @if (_showSuccessMessage)
+        {
+            <div class="notification is-success mt-4">Album added successfully!</div>
+        }
+
+        @if (_showFailureMessage)
+        {
+            <div class="notification is-danger mt-4">Failed to add album.</div>
+        }
+    </div>
+</div>
+
+@code {
+    Album newAlbum = new Album();
+
+    private bool _showSuccessMessage;
+    private bool _showFailureMessage;
+
+    private async Task HandleValidSubmit()
+    {
+        HttpClient httpClient = new HttpClient();
+        HttpResponseMessage response = await httpClient.PostAsJsonAsync<Album>("https://localhost:7218/Albums/", newAlbum);
+
+        if (response.IsSuccessStatusCode)
+            _showSuccessMessage = true;
+        else
+            _showFailureMessage = true;
+
+        StateHasChanged();
+        await Task.Delay(5000);
+
+        _showSuccessMessage = _showFailureMessage = false;
+        StateHasChanged();
+    }
+}
