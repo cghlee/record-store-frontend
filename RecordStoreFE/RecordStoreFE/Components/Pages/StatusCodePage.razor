@@ -1,0 +1,16 @@
+﻿@page "/StatusCode/{StatusCode:int}"
+
+<div class="columns has-text-centered pt-4">
+    <div class="column">
+        <h2><strong><em>OEPSIE WOEPSIE!</em></strong></h2>
+
+        @if (StatusCode == 404)
+        {
+            <_404 />
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public int StatusCode { get; set; }
+}

@@ -29,6 +29,8 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseStatusCodePagesWithRedirects("/StatusCode/{0}");
+
         app.UseStaticFiles();
         app.UseAntiforgery();
 

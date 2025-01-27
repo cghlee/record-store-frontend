@@ -1,4 +1,8 @@
-﻿<div class="card has-background-grey-darker p-4">
+﻿@inject NavigationManager Navigation
+
+@rendermode InteractiveServer
+
+<div class="card has-background-grey-darker p-4">
     <header class="card-header">
         <div class="card-header-title">
             @AlbumItem.Name<br />
@@ -7,7 +11,7 @@
     </header>
     <div class="card-image">
         <figure class="image is-fullwidth mt-2">
-            <img src=@AlbumItem.AlbumArtUrl alt=@AlbumItem.Name/>
+            <img src=@AlbumItem.AlbumArtUrl alt=@AlbumItem.Name @onclick="HandleOnClickNavigation"/>
         </figure>
     </div>
     <div class="card-content">
@@ -23,4 +27,9 @@
 
 @code {
     [Parameter] public Album AlbumItem { get; set; }
+
+    private void HandleOnClickNavigation()
+    {
+        Navigation.NavigateTo($"/albums/{AlbumItem.Id}");
+    }
 }
